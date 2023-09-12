@@ -12,7 +12,7 @@
 
 - Develop a project that adheres to the SOLID Principles.
 
-## Used Solid Principles
+## Used SOLID Principles
 
 All SOLID principles were implemented in this project accordingly.
 
