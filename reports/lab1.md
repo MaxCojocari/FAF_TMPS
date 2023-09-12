@@ -137,7 +137,7 @@ The actor hierarchy illustrates inheritance as shown below. The abstract class '
 
 ![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/7aa42823-bc6a-4ef6-92df-66c041b8d68f)
 
-To gain more insight into the implementation, please examine other classes located within the 'src' directory.
+To gain more insight into the implementation, please examine other classes located within the `src` directory.
 
 <!-- After running the simulation, its outcome should resemble the following:
 
@@ -264,7 +264,7 @@ This design conforms to the LSP because the behavior of the main application doe
 
 #### Interface Segregation Principle
 
-Larger interfaces are splited into smaller ones. Just look in the `src/core/interface` directory, it contains core logic crystalized into multiple interfaces `IBlock`, `ITransaction`, `ITransactionPool`, ..., the child classes are free to implement only the methods that matter to them.
+Larger interfaces are splited into smaller ones. Just look into the `src/core/interface` directory, it contains core logic crystalized into multiple interfaces `IBlock`, `ITransaction`, `ITransactionPool`, ..., the child classes are free to implement only the methods that matter to them.
 
 #### Dependency Inversion Principle
 
