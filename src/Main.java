@@ -13,8 +13,8 @@ public class Main {
     static int maxNrVaults = 5;
     static int maxAmountAssetsRand = 1;
     static int maxAmountAssetsUser = 10;
-    static int nrBlocks = 4;
-    static int poolSize = 3;
+    static int nrBlocks = 3;
+    static int poolSize = 2;
     static int difficulty = 2;
 
     protected static Random random = new Random();

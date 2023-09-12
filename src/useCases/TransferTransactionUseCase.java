@@ -30,7 +30,7 @@ public class TransferTransactionUseCase {
 
         TransferTransaction tx = new TransferTransaction(user1, user2, asset, amount);
         TxPool.addTransaction(tx);
-        System.out.println(tx.transactionInfo());
+        System.out.println(tx.getInternalInfo());
 
         System.out.println("------------------------------------------------------");
     }

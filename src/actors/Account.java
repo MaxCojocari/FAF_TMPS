@@ -14,12 +14,7 @@ public abstract class Account implements BaseAccount {
         this.balanceETH = balanceETH;
     }
 
-    public String resetAddress() {
-        address = getRandomAddress();
-        return address;
-    }
-
-    private String getRandomAddress() {
+    protected String getRandomAddress() {
         int numchars = 40;
         StringBuffer sb = new StringBuffer();
         while (sb.length() < numchars) {

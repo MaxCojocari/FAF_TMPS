@@ -55,7 +55,7 @@ public class MerkleTree implements Tree {
     public void getLeaves() {
         for (ITransaction t : leaves) {
             String l = "";
-            l = ((TransferTransaction) t).transactionInfo();
+            l = ((TransferTransaction) t).getInternalInfo();
             leavesObjects.add(new MerkleLeaf(HashGenerator.computeSha256Hash(l), null, null));
         }
 

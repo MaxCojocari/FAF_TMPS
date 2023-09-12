@@ -18,10 +18,6 @@ public class ContractAccount extends Account {
         return address;
     };
 
-    public int nonce() {
-        return nonce;
-    };
-
     public double getBalance() {
         return balanceETH;
     };
@@ -52,5 +48,10 @@ public class ContractAccount extends Account {
 
     public void sendNativeTokens(double amount, String to) {
         sendETH(amount, to);
+    }
+
+    public String resetAddress() {
+        address = getRandomAddress();
+        return address;
     }
 }

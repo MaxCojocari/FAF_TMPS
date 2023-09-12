@@ -21,7 +21,7 @@ public class TransferTransaction extends Transaction {
         }
     }
 
-    public String transactionInfo() {
+    public String getInternalInfo() {
         String s = "TransferTx \n";
         s += "Sender:\t\t" + super.getSender().getAddress() + "\n";
         s += "Receiver:\t" + super.getReceiver().getAddress() + "\n";

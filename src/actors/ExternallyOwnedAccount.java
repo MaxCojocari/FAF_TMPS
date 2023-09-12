@@ -11,17 +11,10 @@ public class ExternallyOwnedAccount extends Account {
         this.balanceUSDT = balanceUSDT;
     }
 
-    public String getAddress() {
+    public String resetAddress() {
+        address = getRandomAddress();
         return address;
-    };
-
-    public int nonce() {
-        return nonce;
-    };
-
-    public void incNonce() {
-        nonce++;
-    };
+    }
 
     public boolean sendETH(double amount, String to) {
         if (balanceETH < amount) {
@@ -66,4 +59,8 @@ public class ExternallyOwnedAccount extends Account {
     public double getBalanceETH() {
         return super.balanceETH;
     }
+
+    public void incNonce() {
+        nonce++;
+    };
 }

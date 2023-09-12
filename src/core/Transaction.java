@@ -20,12 +20,7 @@ public abstract class Transaction implements ITransaction {
         timestamp = System.currentTimeMillis();
     }
 
-    public String getInternalInfo() {
-        String s = "Transaction \n";
-        s += "Sender:\t\t" + sender.getAddress() + "\n";
-        s += "Receiver:\t" + receiver.getAddress() + "\n";
-        return s;
-    }
+    public abstract String getInternalInfo();
 
     public double computeFee() {
         return fee;
