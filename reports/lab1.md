@@ -133,13 +133,11 @@ public class ExternallyOwnedAccount extends Account {
 }
 ```
 
-The actor hierarchy illustrates inheritance as shown below. The abstract class 'Account' establishes a generic type that serves as a means within the system to separate specific implementations from the fundamental components that rely on it.
+The actors' hierarchy is illustrated below. The abstract class `Account` establishes a generic type that serves as a means within the system to separate specific implementations from the fundamental components that rely on it.
 
 ![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/7aa42823-bc6a-4ef6-92df-66c041b8d68f)
 
-To gain more insight into the implementation, please examine other classes located within the `src` directory.
-
-<!-- After running the simulation, its outcome should resemble the following:
+After running the simulation, its outcome should resemble the following:
 
 ```
 Balances before
@@ -241,7 +239,9 @@ Balances after
 0x5b09c10a2a12eb2618639637c4451ca91f734942
 8.163924078276134 ETH
 7.101970958134759 USDT
-``` -->
+```
+
+To gain more insight into the implementation, please examine other classes located within the `src` directory.
 
 ### Implementation of SOLID principles
 
