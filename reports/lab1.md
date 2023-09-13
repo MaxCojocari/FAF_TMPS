@@ -18,7 +18,7 @@ All SOLID principles were implemented in this project accordingly.
 
 ## Implementation
 
-### Concept Implementation
+### Concept Vision
 
 This project implements a simple analogue of a blockchain system that can deal with transactions, accounts and their balances.
 
