@@ -7,3 +7,5 @@ In order to run this project, complete the following steps:
 - `git clone git@github.com:MaxCojocari/FAF_TMPS.git`
 - `javac -cp src -d out src/**/*.java`
 - `java -cp out Main`
+
+All laboratory reports can be found in a separate directory `reports`.
