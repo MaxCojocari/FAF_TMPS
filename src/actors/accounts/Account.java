@@ -2,7 +2,7 @@ package actors.accounts;
 
 import java.util.Random;
 
-public abstract class Account implements BaseAccount {
+public abstract class Account {
     private String address;
     private int nonce;
     private double balanceETH;

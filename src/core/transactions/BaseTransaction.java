@@ -24,9 +24,6 @@ public abstract class BaseTransaction implements Transaction {
         this.id = id;
         this.fee = fee;
         this.timestamp = timestamp;
-        // id = HashGenerator.computeSha1Hash(sender.getAddress()).substring(2, 5);
-        // fee = Math.random();
-        // timestamp = System.currentTimeMillis();
     }
 
     public double computeFee() {
