@@ -1,4 +1,4 @@
-package core.interfaces;
+package core.transactions.interfaces;
 
 import java.util.ArrayList;
 
@@ -9,9 +9,9 @@ public interface ITransactionPool {
 
     public int getNrTransactions();
 
-    public void addTransaction(ITransaction t);
+    public void addTransaction(Transaction t);
 
     public boolean isPoolFull();
 
-    public ArrayList<ITransaction> getPool();
+    public ArrayList<Transaction> getPool();
 }

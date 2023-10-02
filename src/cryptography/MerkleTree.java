@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import core.Transaction;
-import core.TransferTransaction;
-import core.interfaces.ITransaction;
+import core.transactions.TransferTransaction;
+import core.transactions.interfaces.Transaction;
 import cryptography.interfaces.Leaf;
 import cryptography.interfaces.Tree;
 
 public class MerkleTree implements Tree {
-    private ArrayList<ITransaction> leaves;
+    private ArrayList<Transaction> leaves;
     private ArrayList<Leaf> leavesObjects = new ArrayList<Leaf>();
 
-    public MerkleTree(ArrayList<ITransaction> leaves) {
+    public MerkleTree(ArrayList<Transaction> leaves) {
         this.leaves = leaves;
     }
 
@@ -33,7 +32,7 @@ public class MerkleTree implements Tree {
     public MerkleLeaf getRoot() {
         Queue<Leaf> queue = new LinkedList<Leaf>();
 
-        for (ITransaction t : leaves) {
+        for (Transaction t : leaves) {
             queue.add(
                     new MerkleLeaf(HashGenerator.computeSha256Hash(t.getInternalInfo()), null, null));
         }
@@ -53,7 +52,7 @@ public class MerkleTree implements Tree {
     }
 
     public void getLeaves() {
-        for (ITransaction t : leaves) {
+        for (Transaction t : leaves) {
             String l = "";
             l = ((TransferTransaction) t).getInternalInfo();
             leavesObjects.add(new MerkleLeaf(HashGenerator.computeSha256Hash(l), null, null));

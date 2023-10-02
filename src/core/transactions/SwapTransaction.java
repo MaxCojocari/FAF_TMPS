@@ -1,36 +1,47 @@
-package core;
-
-import actors.ExternallyOwnedAccount;
+package core.transactions;
 
 import java.util.*;
 
-public class SwapTransaction extends Transaction {
-    public ExternallyOwnedAccount exchange;
-    public String tokenIn;
-    public String tokenOut;
-    public double amountIn;
+import actors.accounts.Account;
+
+public class SwapTransaction extends BaseTransaction {
+    private Account exchange;
+    private String tokenIn;
+    private String tokenOut;
+    private double amountIn;
     private Map<String, Double> exchangeRates = new HashMap<String, Double>();
 
     public SwapTransaction(
-            ExternallyOwnedAccount sender,
-            ExternallyOwnedAccount exchange,
+            String id,
+            Account sender,
+            Account exchange,
+            double fee,
+            long timestamp,
             String tokenIn,
             String tokenOut,
-            double amountIn) {
-        super(sender, exchange);
+            double amountIn,
+            double ethRate, double usdtRate) {
+        super(id, sender, exchange, amountIn, fee, timestamp);
         this.exchange = exchange;
         this.tokenIn = tokenIn;
         this.tokenOut = tokenOut;
         this.amountIn = amountIn;
-        exchangeRates.put("ETH", 0.5);
-        exchangeRates.put("USDT", 0.65);
+        setExchangeRates("ETH", ethRate);
+        setExchangeRates("USDT", usdtRate);
+        transferFrom(tokenIn, amountIn, sender, exchange);
+    }
 
-        if (tokenIn.equals("ETH")) {
+    public void setExchangeRates(String currency, double rate) {
+        exchangeRates.put(currency, rate);
+    }
+
+    public void transferFrom(String assetSymbol, double amount, Account sender, Account receiver) {
+        if (assetSymbol.equals("ETH")) {
             if (sender.sendETH(amountIn, exchange.getAddress())) {
                 exchange.receiveETH(amountIn);
                 returnAssetsUSDT(sender);
             }
-        } else if (tokenIn.equals("USDT")) {
+        } else if (assetSymbol.equals("USDT")) {
             if (sender.sendUSDT(amountIn, exchange.getAddress())) {
                 exchange.receiveUSDT(amountIn);
                 returnAssetsETH(sender);
@@ -51,7 +62,7 @@ public class SwapTransaction extends Transaction {
         return amountIn * exchangeRates.get(asset);
     }
 
-    public void returnAssetsUSDT(ExternallyOwnedAccount sender) {
+    public void returnAssetsUSDT(Account sender) {
         if (exchange.getBalanceUSDT() < amountOut("USDT")) {
             System.out.println("Exchange " + exchange.getAddress() + " doesn't have enough USDT for swap!");
             exchange.sendETH(amountIn, sender.getAddress());
@@ -63,7 +74,7 @@ public class SwapTransaction extends Transaction {
         sender.receiveUSDT(amountOut("USDT"));
     }
 
-    public void returnAssetsETH(ExternallyOwnedAccount sender) {
+    public void returnAssetsETH(Account sender) {
         if (exchange.getBalanceETH() < amountOut("ETH")) {
             System.out.println("Exchange " + exchange.getAddress() + " doesn't have enough ETH for swap!");
             exchange.sendUSDT(amountIn, sender.getAddress());

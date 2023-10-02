@@ -1,11 +1,9 @@
 package core.interfaces;
 
-import core.Block;
-
 public interface IBlockchain {
-    public void addBlock(Block block);
+    public void addBlock(IBlock block);
 
-    public boolean validateBlock(Block lastBlock, Block newBlock);
+    public boolean validateBlock(IBlock lastBlock, IBlock newBlock);
 
     public boolean validateBlockchain();
 

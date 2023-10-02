@@ -1,21 +1,28 @@
-package core;
+package core.transactions;
 
-import actors.ExternallyOwnedAccount;
+import actors.accounts.Account;
 
-public class TransferTransaction extends Transaction {
+public class TransferTransaction extends BaseTransaction {
     private String assetSymbol;
-    private double amount;
 
-    public TransferTransaction(ExternallyOwnedAccount sender, ExternallyOwnedAccount receiver, String assetSymbol,
-            double amount) {
-        super(sender, receiver);
+    public TransferTransaction(
+            String id,
+            Account sender,
+            Account receiver,
+            double amount,
+            double fee,
+            long timestamp,
+            String assetSymbol) {
+        super(id, sender, receiver, amount, fee, timestamp);
         this.assetSymbol = assetSymbol;
-        this.amount = amount;
+        transferFrom(assetSymbol, amount, sender, receiver);
+    }
 
+    public void transferFrom(String assetSymbol, double amount, Account sender, Account receiver) {
         if (assetSymbol.equals("ETH")) {
             if (sender.sendETH(amount, assetSymbol))
                 receiver.receiveETH(amount);
-        } else {
+        } else if (assetSymbol.equals("USDT")) {
             if (sender.sendUSDT(amount, assetSymbol))
                 receiver.receiveUSDT(amount);
         }
@@ -29,11 +36,11 @@ public class TransferTransaction extends Transaction {
         return s;
     }
 
-    public double amount() {
+    public double getAmount() {
         return amount;
     }
 
-    public String assetSymbol() {
+    public String getAssetSymbol() {
         return assetSymbol;
     }
 }

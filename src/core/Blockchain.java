@@ -2,27 +2,36 @@ package core;
 
 import java.util.ArrayList;
 
+import core.interfaces.IBlock;
 import core.interfaces.IBlockchain;
 
-public class Blockchain implements IBlockchain {
-    private ArrayList<Block> blockchain;
+public final class Blockchain implements IBlockchain {
+    private static Blockchain instance;
+    private static ArrayList<IBlock> blockchain;
 
-    public Blockchain() {
-        blockchain = new ArrayList<Block>();
+    private Blockchain() {
+        blockchain = new ArrayList<IBlock>();
     }
 
-    public void addBlock(Block block) {
+    public static Blockchain getInstance() {
+        if (blockchain == null) {
+            instance = new Blockchain();
+        }
+        return instance;
+    }
+
+    public void addBlock(IBlock block) {
         if (blockchain.size() == 0) {
             if (validateBlock(null, block))
                 blockchain.add(block);
         } else {
-            Block lastBlock = getPrevBlock();
+            IBlock lastBlock = getPrevBlock();
             if (validateBlock(lastBlock, block))
                 blockchain.add(block);
         }
     }
 
-    public boolean validateBlock(Block lastBlock, Block newBlock) {
+    public boolean validateBlock(IBlock lastBlock, IBlock newBlock) {
         if (lastBlock == null) {
             return newBlock.getIndex() == 0 &&
                     newBlock.getPrevHash() == null &&
@@ -44,12 +53,12 @@ public class Blockchain implements IBlockchain {
     }
 
     public void getBlocks() {
-        for (Block b : blockchain) {
+        for (IBlock b : blockchain) {
             System.out.println(b.toString());
         }
     }
 
-    public Block getPrevBlock() {
+    public IBlock getPrevBlock() {
         return blockchain.get(blockchain.size() - 1);
     }
 }

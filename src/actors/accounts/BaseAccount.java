@@ -1,4 +1,4 @@
-package actors;
+package actors.accounts;
 
 public interface BaseAccount {
     public abstract String resetAddress();

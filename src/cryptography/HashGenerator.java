@@ -1,6 +1,7 @@
 package cryptography;
 
 import java.security.MessageDigest;
+import java.util.Random;
 
 public abstract class HashGenerator {
     public static String getZeroHash() {
@@ -27,6 +28,16 @@ public abstract class HashGenerator {
         }
     }
 
+    public static String getRandomAddress(int numchars) {
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        while (sb.length() < numchars) {
+            sb.append(Integer.toHexString(random.nextInt()));
+        }
+
+        return "0x" + sb.toString().substring(0, numchars);
+    }
+
     private static String getHexString(byte[] hash) {
         StringBuffer hexString = new StringBuffer();
         for (byte b : hash) {
@@ -37,4 +48,5 @@ public abstract class HashGenerator {
         }
         return hexString.toString();
     }
+
 }
