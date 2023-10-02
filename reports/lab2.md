@@ -37,17 +37,29 @@ In this laboratory work were implemented 4 Creational Design Patterns:
 
 Implementing a Singleton pattern in a blockchain class can be a useful way to ensure that there is only one instance of the blockchain throughout the application. This is typically done to maintain consistency and avoid inconsistencies that might arise from multiple blockchain instances.
 
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/d0ca400d-c1ba-426d-b615-40a4b5fcdf7a)
+
+
 ### Builder
 
 The Builder pattern is a creational design pattern that allows to create complex objects step by step by providing a clear separation between the construction process and the representation of the final object. This pattern is particularly useful when there is need to create objects with many optional parameters or configurations. In the context of creating various blockchain accounts, the Builder pattern can help create these accounts with different configurations in a more readable and maintainable way.
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/127a5cbd-03f5-4cab-bb84-8543b4eb8f92)
+
 
 ### Factory Method
 
 The Factory Method pattern is a creational design pattern that provides an interface for creating objects but allows subclasses to alter the type of objects that will be created. In the context of creating transactions, this pattern allows to create different transaction types while abstracting the creation logic.
 
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/aba56c98-7172-4ff2-98ac-8eb718375d16)
+
+
 ### Prototype
 
 The Prototype Design Pattern is a creational design pattern that focuses on creating objects by copying an existing object, known as the prototype, instead of creating objects from scratch. This pattern is particularly useful when object creation is more expensive or complex, and you want to create new objects with similar attributes and behaviors as an existing instance.
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/e20c3ac7-43df-415a-927c-f312393a94ff)
+
 
 ## Conclusions
 
