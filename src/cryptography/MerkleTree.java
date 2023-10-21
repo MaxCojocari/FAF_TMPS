@@ -4,62 +4,61 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import core.transactions.TransferTransaction;
 import core.transactions.interfaces.Transaction;
-import cryptography.interfaces.Leaf;
-import cryptography.interfaces.Tree;
 
-public class MerkleTree implements Tree {
-    private ArrayList<Transaction> leaves;
-    private ArrayList<Leaf> leavesObjects = new ArrayList<Leaf>();
+public class MerkleTree implements MerkleNode {
+    private ArrayList<MerkleNode> leaves;
 
-    public MerkleTree(ArrayList<Transaction> leaves) {
-        this.leaves = leaves;
+    public MerkleTree(ArrayList<Transaction> targetTxs) {
+        leaves = new ArrayList<MerkleNode>();
+        getLeaves(targetTxs);
     }
 
-    public boolean insert(Object leaf) {
-        return leaves.add((Transaction) leaf);
+    public boolean insert(MerkleNode leaf) {
+        return leaves.add(leaf);
     }
 
-    public boolean remove(Object leaf) {
+    public boolean remove(MerkleNode leaf) {
         return leaves.remove(leaf);
     }
 
-    public int search(Object leaf) {
+    public int search(MerkleNode leaf) {
         return leaves.indexOf(leaf);
     }
 
-    public MerkleLeaf getRoot() {
-        Queue<Leaf> queue = new LinkedList<Leaf>();
+    public String getHash() {
+        return getRoot().getHash();
+    }
 
-        for (Transaction t : leaves) {
-            queue.add(
-                    new MerkleLeaf(HashGenerator.computeSha256Hash(t.getInternalInfo()), null, null));
+    public MerkleNode getRoot() {
+        Queue<MerkleNode> queue = new LinkedList<MerkleNode>();
+
+        for (MerkleNode leaf : leaves) {
+            queue.add(leaf);
         }
 
         while (queue.size() != 1) {
-            Leaf leftLeaf = queue.remove();
-            Leaf rightLeaf = queue.remove();
-            Leaf newLeaf = new MerkleLeaf(
-                    HashGenerator
-                            .computeSha256Hash(((MerkleLeaf) leftLeaf).getHash() + ((MerkleLeaf) rightLeaf).getHash()),
+            MerkleNode leftLeaf = queue.remove();
+            MerkleNode rightLeaf = queue.remove();
+            MerkleNode newLeaf = new MerkleLeaf(
+                    HashGenerator.computeSha256Hash(leftLeaf.getHash() + rightLeaf.getHash()),
                     leftLeaf,
                     rightLeaf);
             queue.add(newLeaf);
         }
 
-        return (MerkleLeaf) queue.remove();
+        return queue.remove();
     }
 
-    public void getLeaves() {
-        for (Transaction t : leaves) {
+    public void getLeaves(ArrayList<Transaction> targetTxs) {
+        for (Transaction t : targetTxs) {
             String l = "";
-            l = ((TransferTransaction) t).getInternalInfo();
-            leavesObjects.add(new MerkleLeaf(HashGenerator.computeSha256Hash(l), null, null));
+            l = t.getInternalInfo();
+            leaves.add(new MerkleLeaf(HashGenerator.computeSha256Hash(l), null, null));
         }
 
-        if (leavesObjects.size() % 2 != 0) {
-            leavesObjects.add(new MerkleLeaf(HashGenerator.computeSha256Hash(""), null, null));
+        if (leaves.size() % 2 != 0) {
+            leaves.add(new MerkleLeaf(HashGenerator.computeSha256Hash(""), null, null));
         }
     }
 }

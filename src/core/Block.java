@@ -21,7 +21,7 @@ public class Block implements IBlock {
         this.timestamp = System.currentTimeMillis();
         this.prevHash = prevHash;
         this.transactions = transactions;
-        this.merkleRoot = (new MerkleTree(transactions)).getRoot().getHash();
+        this.merkleRoot = (new MerkleTree(transactions)).getHash();
         currHash = computeHash();
     }
 

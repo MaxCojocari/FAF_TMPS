@@ -1,27 +1,25 @@
 package cryptography;
 
-import cryptography.interfaces.Leaf;
+public class MerkleLeaf implements MerkleNode {
+    private String hash;
+    private MerkleNode rightChild;
+    private MerkleNode leftChild;
 
-public class MerkleLeaf implements Leaf {
-  private String hash;
-  private Leaf rightChild;
-  private Leaf leftChild;
+    public MerkleLeaf(String hash, MerkleNode rightChild, MerkleNode leftChild) {
+        this.hash = hash;
+        this.rightChild = rightChild;
+        this.leftChild = leftChild;
+    }
 
-  public MerkleLeaf(String hash, Leaf rightChild, Leaf leftChild) {
-    this.hash = hash;
-    this.rightChild = rightChild;
-    this.leftChild = leftChild;
-  }
+    public String getHash() {
+        return hash;
+    }
 
-  public String getHash() {
-    return hash;
-  }
+    public MerkleNode leftChild() {
+        return leftChild;
+    }
 
-  public Leaf leftChild() {
-    return leftChild;
-  }
-
-  public Leaf rightChild() {
-    return rightChild;
-  }
+    public MerkleNode rightChild() {
+        return rightChild;
+    }
 }
