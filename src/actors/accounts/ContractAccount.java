@@ -22,8 +22,4 @@ public class ContractAccount extends Account {
     public String getCodeHash() {
         return codeHash;
     }
-
-    public void sendNativeTokens(double amount, String to) {
-        super.sendAssets("ETH", amount, to);
-    }
 }

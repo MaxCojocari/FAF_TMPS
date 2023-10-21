@@ -48,11 +48,10 @@ public class SwapTransaction extends BaseTransaction {
     }
 
     public String getInternalInfo() {
-        String s = "SwapTx \n";
-        s += "Sender:\t\t" + super.getSender().getAddress() + "\n";
+        String s = "Sender:\t\t" + super.getSender().getAddress() + "\n";
         s += "Receiver:\t" + super.getReceiver().getAddress() + "\n";
         s += "AmountIn:\t" + amountIn + " " + tokenIn + "\n";
-        s += "AmountOut:\t" + amountOut(tokenOut) + " " + tokenOut + "\n";
+        s += "AmountOut:\t" + amountOut(tokenOut) + " " + tokenOut;
         return s;
     }
 
@@ -70,5 +69,9 @@ public class SwapTransaction extends BaseTransaction {
         System.out.println("Amount " + tokenOut + " out: " + amountOut(tokenOut));
         exchange.sendAssets(tokenOut, amountOut(tokenOut), sender.getAddress());
         sender.receiveAssets(tokenOut, amountOut(tokenOut));
+    }
+
+    public String getType() {
+        return "exchange (" + tokenIn + " -> " + tokenOut + ")";
     }
 }

@@ -3,7 +3,7 @@ package actors.accounts;
 import java.util.Hashtable;
 import java.util.Random;
 
-public abstract class Account {
+public class Account {
     private String address;
     private int nonce;
     private String privateKey;

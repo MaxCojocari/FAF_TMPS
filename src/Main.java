@@ -4,6 +4,10 @@ import core.Blockchain;
 import core.BlockchainService;
 import core.interfaces.IBlock;
 import core.transactions.TransactionPool;
+import core.transactions.decorators.GasMetricsDecorator;
+import core.transactions.decorators.ITransactionDetailsPage;
+import core.transactions.decorators.MetadataDecorator;
+import core.transactions.decorators.TransactionDetailsPage;
 import core.transactions.interfaces.Transaction;
 
 public class Main {
@@ -19,8 +23,14 @@ public class Main {
         transactionPool.addTransaction(tx);
         System.out.println(tx.getInternalInfo());
 
-        Account alice = blockchainService.getAccount(id1);
-        Account smartContract = blockchainService.getAccount(id2);
+        // Account alice = blockchainService.getAccount(id1);
+        // Account smartContract = blockchainService.getAccount(id2);
+
+        // Decorator demo
+        ITransactionDetailsPage page = new TransactionDetailsPage(tx, "Ethereum", 1.1);
+        page = new GasMetricsDecorator(page, tx);
+        page = new MetadataDecorator(page, tx);
+        page.display();
 
         // Prototype demo
         IBlock block = new Block(0, null, transactionPool.getPool());

@@ -19,4 +19,5 @@ public interface Transaction {
 
     public void setChecked();
 
+    public String getType();
 }

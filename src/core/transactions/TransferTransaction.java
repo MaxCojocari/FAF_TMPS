@@ -28,10 +28,9 @@ public class TransferTransaction extends BaseTransaction {
     }
 
     public String getInternalInfo() {
-        String s = "TransferTx \n";
-        s += "Sender:\t\t" + super.getSender().getAddress() + "\n";
+        String s = "Sender:\t\t" + super.getSender().getAddress() + "\n";
         s += "Receiver:\t" + super.getReceiver().getAddress() + "\n";
-        s += "Amount:\t\t" + super.getAmount() + " " + assetSymbol + "\n";
+        s += "Amount:\t\t" + super.getAmount() + " " + assetSymbol;
         return s;
     }
 
@@ -41,5 +40,9 @@ public class TransferTransaction extends BaseTransaction {
 
     public String getAssetSymbol() {
         return assetSymbol;
+    }
+
+    public String getType() {
+        return "currency transfer";
     }
 }
