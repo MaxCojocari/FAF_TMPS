@@ -1,24 +1,23 @@
 package actors.accounts;
 
+import java.util.Hashtable;
 import java.util.Random;
 
 public abstract class Account {
     private String address;
     private int nonce;
-    private double balanceETH;
-    private double balanceUSDT;
     private String privateKey;
     private String publicKey;
+    private Hashtable<String, Double> balances;
     private Random random = new Random();
 
-    public Account(String address, int nonce, double balanceETH, double balanceUSDT, String publicKey,
+    public Account(String address, int nonce, String publicKey,
             String privateKey) {
         this.address = address;
         this.nonce = nonce;
-        this.balanceETH = balanceETH;
-        this.balanceUSDT = balanceUSDT;
         this.privateKey = privateKey;
         this.publicKey = publicKey;
+        this.balances = new Hashtable<String, Double>();
     }
 
     protected String getRandomAddress() {
@@ -39,12 +38,8 @@ public abstract class Account {
         return nonce;
     }
 
-    public double getBalanceETH() {
-        return balanceETH;
-    }
-
-    public double getBalanceUSDT() {
-        return balanceUSDT;
+    public double getBalance(String currency) {
+        return balances.get(currency);
     }
 
     public String getPrivateKey() {
@@ -60,39 +55,34 @@ public abstract class Account {
         return address;
     }
 
-    public boolean sendETH(double amount, String to) {
-        if (balanceETH < amount) {
-            System.out.println("INSUFFICIENT_ETH_BALANCE" + "\n");
+    public boolean sendAssets(String currency, double amount, String to) {
+        Double currentBalance = balances.get(currency);
+        if (currentBalance == null) {
+            currentBalance = 0.;
+        }
+        if (currentBalance < amount) {
+            System.out.println("INSUFFICIENT_" + currency + "_BALANCE" + "\n");
             return false;
         }
         if (amount <= 0)
             return false;
-        balanceETH -= amount;
+
+        currentBalance -= amount;
+        balances.put(currency, currentBalance);
+
         return true;
     }
 
-    public boolean receiveETH(double amount) {
+    public boolean receiveAssets(String currency, double amount) {
         if (amount <= 0)
             return false;
-        balanceETH += amount;
-        return true;
-    }
-
-    public boolean sendUSDT(double amount, String to) {
-        if (balanceUSDT < amount) {
-            System.out.println("INSUFFICIENT_USDT_BALANCE" + "\n");
-            return false;
+        Double currentBalance = balances.get(currency);
+        if (currentBalance == null) {
+            currentBalance = 0.;
         }
-        if (amount <= 0)
-            return false;
-        balanceUSDT -= amount;
-        return true;
-    }
-
-    public boolean receiveUSDT(double amount) {
-        if (amount <= 0)
-            return false;
-        balanceUSDT += amount;
+        balances.put(
+                currency,
+                currentBalance + amount);
         return true;
     }
 

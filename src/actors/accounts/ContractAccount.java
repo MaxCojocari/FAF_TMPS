@@ -6,13 +6,11 @@ public class ContractAccount extends Account {
 
     public ContractAccount(
             String address,
-            double balanceETH,
-            double balanceUSDT,
             String storageHash,
             String codeHash,
             String privateKey,
             String publicKey) {
-        super(address, 0, balanceETH, balanceUSDT, privateKey, publicKey);
+        super(address, 0, privateKey, publicKey);
         this.storageHash = storageHash;
         this.codeHash = codeHash;
     }
@@ -26,6 +24,6 @@ public class ContractAccount extends Account {
     }
 
     public void sendNativeTokens(double amount, String to) {
-        sendETH(amount, to);
+        super.sendAssets("ETH", amount, to);
     }
 }

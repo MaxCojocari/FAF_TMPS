@@ -19,20 +19,19 @@ public class TransferTransaction extends BaseTransaction {
     }
 
     public void transferFrom(String assetSymbol, double amount, Account sender, Account receiver) {
-        if (assetSymbol.equals("ETH")) {
-            if (sender.sendETH(amount, assetSymbol))
-                receiver.receiveETH(amount);
-        } else if (assetSymbol.equals("USDT")) {
-            if (sender.sendUSDT(amount, assetSymbol))
-                receiver.receiveUSDT(amount);
-        }
+        assert !getTransferDone();
+
+        if (sender.sendAssets(assetSymbol, amount, receiver.getAddress()))
+            receiver.receiveAssets(assetSymbol, amount);
+
+        setTransferDone();
     }
 
     public String getInternalInfo() {
         String s = "TransferTx \n";
         s += "Sender:\t\t" + super.getSender().getAddress() + "\n";
         s += "Receiver:\t" + super.getReceiver().getAddress() + "\n";
-        s += "Amount:\t\t" + amount + " " + assetSymbol + "\n";
+        s += "Amount:\t\t" + super.getAmount() + " " + assetSymbol + "\n";
         return s;
     }
 

@@ -9,6 +9,7 @@ public class SwapTransaction extends BaseTransaction {
     private String tokenIn;
     private String tokenOut;
     private double amountIn;
+    private double fee;
     private Map<String, Double> exchangeRates = new HashMap<String, Double>();
 
     public SwapTransaction(
@@ -36,17 +37,14 @@ public class SwapTransaction extends BaseTransaction {
     }
 
     public void transferFrom(String assetSymbol, double amount, Account sender, Account receiver) {
-        if (assetSymbol.equals("ETH")) {
-            if (sender.sendETH(amountIn, exchange.getAddress())) {
-                exchange.receiveETH(amountIn);
-                returnAssetsUSDT(sender);
-            }
-        } else if (assetSymbol.equals("USDT")) {
-            if (sender.sendUSDT(amountIn, exchange.getAddress())) {
-                exchange.receiveUSDT(amountIn);
-                returnAssetsETH(sender);
-            }
+        assert !getTransferDone();
+
+        if (sender.sendAssets(assetSymbol, amount, exchange.getAddress())) {
+            exchange.receiveAssets(assetSymbol, amount);
+            returnAssets(amount, sender);
         }
+
+        setTransferDone();
     }
 
     public String getInternalInfo() {
@@ -58,32 +56,19 @@ public class SwapTransaction extends BaseTransaction {
         return s;
     }
 
-    public double amountOut(String asset) {
-        return amountIn * exchangeRates.get(asset);
+    public double amountOut(String currencyOut) {
+        return amountIn * exchangeRates.get(currencyOut) * (1 - fee / 100);
     }
 
-    public void returnAssetsUSDT(Account sender) {
-        if (exchange.getBalanceUSDT() < amountOut("USDT")) {
-            System.out.println("Exchange " + exchange.getAddress() + " doesn't have enough USDT for swap!");
-            exchange.sendETH(amountIn, sender.getAddress());
-            sender.receiveETH(amountIn);
+    public void returnAssets(double amountIn, Account sender) {
+        if (exchange.getBalance(tokenOut) < amountOut(tokenIn)) {
+            System.out.println("Exchange " + exchange.getAddress() + " doesn't have enough " + tokenOut + " for swap!");
+            exchange.sendAssets(tokenIn, amountIn, sender.getAddress());
+            sender.receiveAssets(tokenIn, amountIn);
             return;
         }
-        System.out.println("Amount USDT out: " + amountOut("USDT"));
-        exchange.sendUSDT(amountOut("USDT"), sender.getAddress());
-        sender.receiveUSDT(amountOut("USDT"));
-    }
-
-    public void returnAssetsETH(Account sender) {
-        if (exchange.getBalanceETH() < amountOut("ETH")) {
-            System.out.println("Exchange " + exchange.getAddress() + " doesn't have enough ETH for swap!");
-            exchange.sendUSDT(amountIn, sender.getAddress());
-            sender.receiveUSDT(amountIn);
-            return;
-        }
-        ;
-        System.out.println("Amount ETH out: " + amountOut("ETH"));
-        exchange.sendETH(amountOut("ETH"), sender.getAddress());
-        sender.receiveETH(amountOut("ETH"));
+        System.out.println("Amount " + tokenOut + " out: " + amountOut(tokenOut));
+        exchange.sendAssets(tokenOut, amountOut(tokenOut), sender.getAddress());
+        sender.receiveAssets(tokenOut, amountOut(tokenOut));
     }
 }

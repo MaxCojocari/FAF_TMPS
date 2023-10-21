@@ -11,6 +11,7 @@ public abstract class BaseTransaction implements Transaction {
     private double fee;
     private long timestamp;
     private boolean checked;
+    private boolean isTransferDone;
 
     public BaseTransaction(
             String id,
@@ -21,9 +22,11 @@ public abstract class BaseTransaction implements Transaction {
             long timestamp) {
         this.sender = sender;
         this.receiver = receiver;
+        this.amount = amount;
         this.id = id;
         this.fee = fee;
         this.timestamp = timestamp;
+        isTransferDone = false;
     }
 
     public double computeFee() {
@@ -56,5 +59,13 @@ public abstract class BaseTransaction implements Transaction {
 
     public void setChecked() {
         this.checked = true;
+    }
+
+    public boolean getTransferDone() {
+        return isTransferDone;
+    }
+
+    public void setTransferDone() {
+        isTransferDone = true;
     }
 }

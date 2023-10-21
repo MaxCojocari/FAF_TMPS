@@ -7,17 +7,15 @@ public abstract class TransactionCreator {
 
     public boolean validateTransaction(Transaction t, String currency) {
         try {
-            if (currency.equals("ETH")) {
-                return t.getAmount() > t.getSender().getBalanceETH();
-            } else if (currency.equals("USDT")) {
-                return t.getAmount() > t.getSender().getBalanceUSDT();
+            if (t.getAmount() > t.getSender().getBalance(currency)) {
+                throw new Exception("User does not possess this asset!");
             }
-            throw new Exception("User does not posses this asset!");
+            return true;
         } catch (Exception e) {
             System.err.println("Exception caught: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public abstract Transaction createTransaction(Account sender, Account receiver, double amount, String currency);

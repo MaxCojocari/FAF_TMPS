@@ -1,60 +1,38 @@
-import actors.AccountDirector;
-import actors.accounts.ContractAccount;
-import actors.accounts.ExternallyOwnedAccount;
-import actors.builders.ContractAccountBuilder;
-import actors.builders.ExternallyOwnerAccountBuilder;
+import actors.accounts.Account;
 import core.Block;
 import core.Blockchain;
+import core.BlockchainService;
 import core.interfaces.IBlock;
 import core.transactions.TransactionPool;
-import core.transactions.factory.SwapTransactionCreator;
-import core.transactions.factory.TransactionCreator;
-import core.transactions.factory.TransferTransactionCreator;
 import core.transactions.interfaces.Transaction;
 
 public class Main {
     public static void main(String[] args) {
-        // Singleton demo
         Blockchain blockchain = Blockchain.getInstance();
         TransactionPool transactionPool = new TransactionPool();
 
-        // Builder demo
-        AccountDirector director = new AccountDirector();
+        // facade demo
+        BlockchainService blockchainService = new BlockchainService();
+        int id1 = blockchainService.createNewAccount(blockchainService.EXTERNALLY_OWNED_TYPE, "ETH", 100);
+        int id2 = blockchainService.createNewAccount(blockchainService.CONTRACT_TYPE, "USDT", 100);
+        Transaction tx = blockchainService.transferAssets(id1, id2, "ETH", 0.03);
+        transactionPool.addTransaction(tx);
+        System.out.println(tx.getInternalInfo());
 
-        ExternallyOwnerAccountBuilder externallyOwnedAccountBuilder = new ExternallyOwnerAccountBuilder();
-        director.constructExternallyOwnerAccount(externallyOwnedAccountBuilder);
-        ExternallyOwnedAccount alice = externallyOwnedAccountBuilder.getResult();
-
-        ContractAccountBuilder builder = new ContractAccountBuilder();
-        director.constructExternallyOwnerAccount(builder);
-        ContractAccount smartContract = builder.getResult();
-
-        // Factory Method demo
-        TransactionCreator transferTxCreator = new TransferTransactionCreator();
-        Transaction tx1 = transferTxCreator.createTransaction(smartContract, alice, 0.00123, "ETH");
-        transactionPool.addTransaction(tx1);
-        System.out.println(tx1.getInternalInfo());
-
-        TransactionCreator swapTxCreator = new SwapTransactionCreator();
-        Transaction tx2 = swapTxCreator.createTransaction(alice, smartContract, 0.03, "USDT");
-        transactionPool.addTransaction(tx1);
-        System.out.println(tx2.getInternalInfo());
+        Account alice = blockchainService.getAccount(id1);
+        Account smartContract = blockchainService.getAccount(id2);
 
         // Prototype demo
         IBlock block = new Block(0, null, transactionPool.getPool());
         block.mineBlock(2);
         blockchain.addBlock(block);
 
-        IBlock newBlock = block.clone();
-        newBlock.setIndex(1);
-        newBlock.setPrevHash(block.getCurrHash());
-        newBlock.mineBlock(3);
-        blockchain.addBlock(newBlock);
+        // IBlock newBlock = block.clone();
+        // newBlock.setIndex(1);
+        // newBlock.setPrevHash(block.getCurrHash());
+        // newBlock.mineBlock(3);
+        // blockchain.addBlock(newBlock);
 
-        System.out.println("Singleton Correctness Proof Comparison:");
-        System.out.println("---------------------------------------------------");
-        blockchain.getBlocks();
-        System.out.println("---------------------------------------------------");
         Blockchain.getInstance().getBlocks();
     }
 }
