@@ -1,4 +1,3 @@
-import actors.accounts.Account;
 import core.Block;
 import core.Blockchain;
 import core.BlockchainService;
