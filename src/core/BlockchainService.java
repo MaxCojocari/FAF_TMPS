@@ -13,7 +13,6 @@ import core.transactions.interfaces.Transaction;
 public class BlockchainService {
     public final String EXTERNALLY_OWNED_TYPE = "EXTERNALLY_OWNED";
     public final String CONTRACT_TYPE = "CONTRACT";
-
     private int nonce;
     private Hashtable<Integer, Account> accounts;
 
