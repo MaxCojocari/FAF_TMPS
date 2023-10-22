@@ -47,6 +47,9 @@ In the provided `BlockchainService` implementation, the class acts as a facade f
 
 For example, the `BlockchainService` class offers a simplified and unified interface (`createNewAccount` and `transferAssets` methods) to the client. The client doesn't need to understand or interact with the underlying components like `AccountDirector`, `ExternallyOwnedAccountBuilder`, `ContractAccountBuilder`, or `TransferTransactionCreator`.
 
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/1de0673b-96dd-4fd2-9c85-94a57265c359)
+
+
 ### Decorator
 
 Components involed:
@@ -60,6 +63,9 @@ Components involed:
 The Decorator Pattern enables the addition of behaviors to objects without impacting others in the same class, using decorator classes to wrap and enhance components.
 
 In this setup, `ITransactionDetailsPage` is the central interface, implemented/extended by the main component `TransactionDetailsPage`, abstract decorator `TransactionPageDecorator` and concrete decorators like `GasMetricsDecorator` and `MetadataDecorator`. While `TransactionDetailsPage` provides basic transaction details, decorators like `GasMetricsDecorator` add gas metrics, and `MetadataDecorator` introduces extra transaction metadata.
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/f718ae08-1fc2-483c-a7bd-5bf5653ec81c)
+
 
 ### Composite
 
@@ -79,6 +85,9 @@ The Composite Pattern allows you to compose objects into tree structures to repr
 
 - _Composite:_ Represents a group of components (which can be both other composites and leaves). It typically implements the Component interface and manages child components. The `MerkleTree` class is the Composite in this context. It manages a collection of `MerkleNode` objects (the `leaves` ArrayList) and provides methods to manipulate this collection, like `insert`, `remove`, and `search`.
 
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/3b8cf7c4-141d-4290-af10-f26a4eb68869)
+
+
 ### Proxy
 
 Components involved:
@@ -92,6 +101,9 @@ The Proxy Pattern provides a surrogate or placeholder for another object to cont
 In this implementation, the concept of a vault in a blockchain system is represented. The `Vault` class is the real object that provides the core functionalities of a vault, such as depositing, withdrawing, and checking the amount of asset deposited.
 
 The `VaultProxy` class acts as the proxy for the `Vault`. It controls access to the `Vault` by checking if a user (represented by an account ID) has the necessary permissions to perform certain operations on the vault. The proxy ensures that only authorized users (owners) can perform sensitive operations like depositing, withdrawing, or freezing the vault.
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/6a98c7ea-2feb-46a4-8eaf-37a475ed4539)
+
 
 ## Conclusions
 
