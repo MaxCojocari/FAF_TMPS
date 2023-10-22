@@ -40,9 +40,7 @@ public class MerkleTree implements MerkleNode {
         while (queue.size() != 1) {
             MerkleNode leftLeaf = queue.remove();
             MerkleNode rightLeaf = queue.remove();
-            MerkleNode newLeaf = new MerkleLeaf(
-                    HashGenerator.computeSha256Hash(leftLeaf.getHash() + rightLeaf.getHash()),
-                    leftLeaf,
+            MerkleNode newLeaf = new MerkleLeaf(HashGenerator.computeSha256Hash(leftLeaf.getHash() + rightLeaf.getHash()), leftLeaf,
                     rightLeaf);
             queue.add(newLeaf);
         }

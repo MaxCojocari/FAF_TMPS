@@ -12,16 +12,8 @@ public class SwapTransaction extends BaseTransaction {
     private double fee;
     private Map<String, Double> exchangeRates = new HashMap<String, Double>();
 
-    public SwapTransaction(
-            String id,
-            Account sender,
-            Account exchange,
-            double fee,
-            long timestamp,
-            String tokenIn,
-            String tokenOut,
-            double amountIn,
-            double ethRate, double usdtRate) {
+    public SwapTransaction(String id, Account sender, Account exchange, double fee, long timestamp, String tokenIn, String tokenOut,
+            double amountIn, double ethRate, double usdtRate) {
         super(id, sender, exchange, amountIn, fee, timestamp);
         this.exchange = exchange;
         this.tokenIn = tokenIn;

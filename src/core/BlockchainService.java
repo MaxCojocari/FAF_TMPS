@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import actors.AccountDirector;
 import actors.accounts.Account;
 import actors.builders.ContractAccountBuilder;
-import actors.builders.ExternallyOwnerAccountBuilder;
+import actors.builders.ExternallyOwnedAccountBuilder;
 import core.transactions.factory.TransactionCreator;
 import core.transactions.factory.TransferTransactionCreator;
 import core.transactions.interfaces.Transaction;
@@ -31,21 +31,21 @@ public class BlockchainService {
         Account account = null;
 
         switch (type) {
-            case EXTERNALLY_OWNED_TYPE:
-                ExternallyOwnerAccountBuilder externallyOwnedAccountBuilder = new ExternallyOwnerAccountBuilder();
-                director.constructExternallyOwnerAccount(externallyOwnedAccountBuilder);
-                account = externallyOwnedAccountBuilder.getResult();
-                break;
+        case EXTERNALLY_OWNED_TYPE:
+            ExternallyOwnedAccountBuilder externallyOwnedAccountBuilder = new ExternallyOwnedAccountBuilder();
+            director.constructExternallyOwnedAccount(externallyOwnedAccountBuilder);
+            account = externallyOwnedAccountBuilder.getResult();
+            break;
 
-            case CONTRACT_TYPE:
-                ContractAccountBuilder contractAccountBuilder = new ContractAccountBuilder();
-                director.constructExternallyOwnerAccount(contractAccountBuilder);
-                account = contractAccountBuilder.getResult();
-                break;
+        case CONTRACT_TYPE:
+            ContractAccountBuilder contractAccountBuilder = new ContractAccountBuilder();
+            director.constructExternallyOwnedAccount(contractAccountBuilder);
+            account = contractAccountBuilder.getResult();
+            break;
 
-            default:
-                System.out.println("Invalid account type");
-                break;
+        default:
+            System.out.println("Invalid account type");
+            break;
         }
 
         if (account != null) {

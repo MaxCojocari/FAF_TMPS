@@ -10,7 +10,7 @@ public class MetadataDecorator extends TransactionPageDecorator {
 
     public void displayMetadata() {
         String inputBytecode = HashGenerator.computeSha256Hash(super.transaction.getInternalInfo());
-        String inputData = "Metadata:\t" + inputBytecode;
+        String inputData = "Metadata:\t" + inputBytecode + "\n";
         System.out.println(inputData);
     }
 

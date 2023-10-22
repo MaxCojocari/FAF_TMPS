@@ -46,8 +46,8 @@ public class Block implements IBlock {
         s = s + "PreviousHash:\t" + prevHash + "\n";
         s = s + "Timestamp:\t" + timestamp + "\n";
         s = s + "Nonce:\t\t" + nonce + "\n";
-        s = s + "CurrentHash:\t" + currHash + "\n";
-        s = s + "Merkle root:\t" + merkleRoot + "\n";
+        s = s + "CurrentHash:\t" + "0x" + currHash + "\n";
+        s = s + "Merkle root:\t" + "0x" + merkleRoot + "\n";
         return s;
     }
 

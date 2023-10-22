@@ -11,8 +11,7 @@ public class Account {
     private Hashtable<String, Double> balances;
     private Random random = new Random();
 
-    public Account(String address, int nonce, String publicKey,
-            String privateKey) {
+    public Account(String address, int nonce, String publicKey, String privateKey) {
         this.address = address;
         this.nonce = nonce;
         this.privateKey = privateKey;
@@ -80,9 +79,7 @@ public class Account {
         if (currentBalance == null) {
             currentBalance = 0.;
         }
-        balances.put(
-                currency,
-                currentBalance + amount);
+        balances.put(currency, currentBalance + amount);
         return true;
     }
 

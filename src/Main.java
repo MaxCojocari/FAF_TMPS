@@ -9,6 +9,11 @@ import core.transactions.decorators.ITransactionDetailsPage;
 import core.transactions.decorators.MetadataDecorator;
 import core.transactions.decorators.TransactionDetailsPage;
 import core.transactions.interfaces.Transaction;
+import core.vault.Vault;
+import core.vault.VaultProxy;
+import core.vault.interfaces.IVault;
+import cryptography.MerkleNode;
+import cryptography.MerkleTree;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,14 +22,17 @@ public class Main {
 
         // facade demo
         BlockchainService blockchainService = new BlockchainService();
-        int id1 = blockchainService.createNewAccount(blockchainService.EXTERNALLY_OWNED_TYPE, "ETH", 100);
-        int id2 = blockchainService.createNewAccount(blockchainService.CONTRACT_TYPE, "USDT", 100);
-        Transaction tx = blockchainService.transferAssets(id1, id2, "ETH", 0.03);
-        transactionPool.addTransaction(tx);
-        System.out.println(tx.getInternalInfo());
+        Integer aliceId = blockchainService.createNewAccount(blockchainService.EXTERNALLY_OWNED_TYPE, "ETH", 100);
+        Integer bobId = blockchainService.createNewAccount(blockchainService.EXTERNALLY_OWNED_TYPE, "ETH", 200);
+        Integer contractId = blockchainService.createNewAccount(blockchainService.CONTRACT_TYPE, "USDT", 100);
 
-        // Account alice = blockchainService.getAccount(id1);
-        // Account smartContract = blockchainService.getAccount(id2);
+        Transaction tx = blockchainService.transferAssets(aliceId, bobId, "ETH", 0.03);
+        transactionPool.addTransaction(tx);
+        displayInfo(tx.getInternalInfo());
+
+        tx = blockchainService.transferAssets(contractId, aliceId, "USDT", 20.45);
+        transactionPool.addTransaction(tx);
+        displayInfo(tx.getInternalInfo());
 
         // Decorator demo
         ITransactionDetailsPage page = new TransactionDetailsPage(tx, "Ethereum", 1.1);
@@ -32,17 +40,30 @@ public class Main {
         page = new MetadataDecorator(page, tx);
         page.display();
 
-        // Prototype demo
+        // Composite demo
+        MerkleTree merkleTree = new MerkleTree(transactionPool.getPool());
+        MerkleNode root = merkleTree.getRoot();
+        displayInfo("Merkle Tree root hash: 0x" + root.getHash());
+
+        // Proxy demo
+        IVault vault = new Vault(aliceId, "ETH", blockchainService);
+        VaultProxy proxy = new VaultProxy(vault, aliceId, blockchainService);
+        tx = proxy.deposit(aliceId, Double.parseDouble("20"));
+        transactionPool.addTransaction(tx);
+        displayInfo(tx.getInternalInfo());
+
+        proxy.addOwner(aliceId, bobId);
+        tx = proxy.deposit(bobId, Double.parseDouble("10"));
+        transactionPool.addTransaction(tx);
+        displayInfo(tx.getInternalInfo());
+
         IBlock block = new Block(0, null, transactionPool.getPool());
         block.mineBlock(2);
         blockchain.addBlock(block);
-
-        // IBlock newBlock = block.clone();
-        // newBlock.setIndex(1);
-        // newBlock.setPrevHash(block.getCurrHash());
-        // newBlock.mineBlock(3);
-        // blockchain.addBlock(newBlock);
-
         Blockchain.getInstance().getBlocks();
+    }
+
+    public static void displayInfo(String info) {
+        System.out.println(info + "\n");
     }
 }

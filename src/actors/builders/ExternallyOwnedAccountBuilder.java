@@ -2,7 +2,7 @@ package actors.builders;
 
 import actors.accounts.ExternallyOwnedAccount;
 
-public class ExternallyOwnerAccountBuilder implements AccountBuilder {
+public class ExternallyOwnedAccountBuilder implements AccountBuilder {
     private String address;
     private double balanceETH;
     private double balanceUSDT;

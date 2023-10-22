@@ -13,13 +13,7 @@ public abstract class BaseTransaction implements Transaction {
     private boolean checked;
     private boolean isTransferDone;
 
-    public BaseTransaction(
-            String id,
-            Account sender,
-            Account receiver,
-            double amount,
-            double fee,
-            long timestamp) {
+    public BaseTransaction(String id, Account sender, Account receiver, double amount, double fee, long timestamp) {
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;

@@ -5,14 +5,7 @@ import actors.accounts.Account;
 public class TransferTransaction extends BaseTransaction {
     private String assetSymbol;
 
-    public TransferTransaction(
-            String id,
-            Account sender,
-            Account receiver,
-            double amount,
-            double fee,
-            long timestamp,
-            String assetSymbol) {
+    public TransferTransaction(String id, Account sender, Account receiver, double amount, double fee, long timestamp, String assetSymbol) {
         super(id, sender, receiver, amount, fee, timestamp);
         this.assetSymbol = assetSymbol;
         transferFrom(assetSymbol, amount, sender, receiver);
