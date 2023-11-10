@@ -1,5 +1,7 @@
 package core.interfaces;
 
+import java.util.ArrayList;
+
 public interface IBlockchain {
     public void addBlock(IBlock block);
 
@@ -7,7 +9,9 @@ public interface IBlockchain {
 
     public boolean validateBlockchain();
 
-    public void getBlocks();
+    public ArrayList<IBlock> getBlocks();
 
-    public Object getPrevBlock();
+    public IBlock getPrevBlock();
+
+    public Iterator createIterator();
 }

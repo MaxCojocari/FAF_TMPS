@@ -2,15 +2,22 @@ package core;
 
 import java.util.ArrayList;
 
+import core.handlers.Handler;
+import core.handlers.HashHandler;
+import core.handlers.IndexHandler;
+import core.handlers.TimestampHandler;
 import core.interfaces.IBlock;
 import core.interfaces.IBlockchain;
+import core.interfaces.Iterator;
 
 public final class Blockchain implements IBlockchain {
     private static Blockchain instance;
     private static ArrayList<IBlock> blockchain;
+    private Handler blockHandler;
 
     private Blockchain() {
         blockchain = new ArrayList<IBlock>();
+        blockHandler = Handler.link(new Handler[] { new IndexHandler(), new TimestampHandler(), new HashHandler() });
     }
 
     public static Blockchain getInstance() {
@@ -32,16 +39,7 @@ public final class Blockchain implements IBlockchain {
     }
 
     public boolean validateBlock(IBlock lastBlock, IBlock newBlock) {
-        if (lastBlock == null) {
-            return newBlock.getIndex() == 0 &&
-                    newBlock.getPrevHash() == null &&
-                    newBlock.computeHash().equals(newBlock.getCurrHash());
-        }
-
-        return lastBlock.getCurrHash().equals(newBlock.getPrevHash()) &&
-                lastBlock.getTimestamp() < newBlock.getTimestamp() &&
-                lastBlock.getIndex() + 1 == newBlock.getIndex() &&
-                newBlock.computeHash().equals(newBlock.getCurrHash());
+        return blockHandler.check(lastBlock, newBlock);
     }
 
     public boolean validateBlockchain() {
@@ -52,13 +50,15 @@ public final class Blockchain implements IBlockchain {
         return true;
     }
 
-    public void getBlocks() {
-        for (IBlock b : blockchain) {
-            System.out.println(b.toString());
-        }
+    public ArrayList<IBlock> getBlocks() {
+        return blockchain;
     }
 
     public IBlock getPrevBlock() {
         return blockchain.get(blockchain.size() - 1);
+    }
+
+    public Iterator createIterator() {
+        return new BlockchainIterator(this);
     }
 }
