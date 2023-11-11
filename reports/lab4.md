@@ -41,13 +41,16 @@ Components invoved:
 - [`IBlockchain`](../src/core/interfaces/IBlockchain.java)
 - [`Blockchain`](../src/core/Blockchain.java)
 
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/0d0bf619-e2ba-4109-85db-56f4a9845555)
+
 The Iterator Pattern offers a standardized way to sequentially access elements within a collection without exposing the collection's underlying structure. It introduces an interface that simplifies navigation through a collection and manages the iteration process.
 
 In the given `BlockchainIterator` class, this pattern is utilized to abstract the complexity of navigating through blockchain blocks. This class serves as an iterator over a blockchain's blocks.
 
 For instance, the `BlockchainIterator` class provides a coherent and straightforward interface (`getNextBlock` and `hasMore` methods) for clients. The clients are not required to engage directly with the complex mechanisms of block retrieval and iteration logic. Instead, they can easily navigate through the blocks in the blockchain, while the `BlockchainIterator` handles the details of accessing and loading the blocks, as well as maintaining the current position in the sequence.
 
-![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/1de0673b-96dd-4fd2-9c85-94a57265c359)
+
 
 ### Chain of Responsability
 
@@ -59,7 +62,10 @@ Components involed:
 - [`TimestampHandler`](../src/core/handlers/TimestampHandler.java)
 - [`Blockchain`](../src/core/Blockchain.java)
 
-The Chain of Responsibility Pattern involves decoupling the sender of a request from its receivers by allowing multiple objects to handle the request. This pattern chains the receiving objects and passes the request along the chain until an object handles it. It simplifies object interconnections and promotes loose coupling.
+
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/db040811-2187-4f0f-b5ee-47d3d0f208c0)
+
+The Chain of Responsibility Pattern involves decoupling the sender of a request from its receivers by allowing multiple objects to handle the request. This pattern chains the receiving objects and passes the request along the chain until an object handles it. 
 
 For example, in the blockchain context, distinct validation steps like hash checking, index verification, and timestamp validation are encapsulated in separate handler classes (`HashHandler`, `IndexHandler`, `TimestampHandler`). Each class extends the abstract `Handler` class and overrides the `check` method to implement its specific validation logic.
 
@@ -69,7 +75,7 @@ Each handler, through its `check` method, decides whether to process the request
 
 This structure allows for dynamic addition or removal of validation steps without altering the existing handlers or the client code. The client initiating the validation needs only to interact with the head of the chain, unaware of the specific handlers and their ordering, thus simplifying the client interface and enhancing flexibility in the validation process.
 
-![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/f718ae08-1fc2-483c-a7bd-5bf5653ec81c)
+
 
 ### Observer
 
@@ -81,7 +87,8 @@ Components involved:
 - [`Subject`](../src/core/interfaces/Subject.java)
 - [`BlockchainService`](../src/core/BlockchainService.java)
 
-![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/3b8cf7c4-141d-4290-af10-f26a4eb68869)
+![image](https://github.com/MaxCojocari/FAF_TMPS/assets/92053176/b4ecd9b4-4551-469f-a19c-7515d89b33db)
+
 
 The Observer Pattern is a design pattern where an object, known as a subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods. It is mainly used to implement distributed event handling systems and promotes a loose coupling between the subject and its observers.
 
